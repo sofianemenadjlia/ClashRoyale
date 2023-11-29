@@ -40,21 +40,18 @@ public class ClashRoyale {
     public static class clashMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
         private TreeMap<String, Integer> victories = new TreeMap<String, Integer>();
 
-        private String getMonthYear(LocalDateTime date, String winnerCards) {
-            String yearMonthKey = date.getYear() + "-" + date.getMonthValue();
-            return new String(winnerCards + "_" + yearMonthKey);
+        private String getMonthYear(LocalDateTime date) {
+            return date.getMonthValue() + "";
         }
 
-        private String getWeekYear(LocalDateTime date, String winnerCards) {
-            int weekOfYear = date.get(WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear());
-            String yearWeekKey = date.getYear() + "-" + weekOfYear;
-            return new String(winnerCards + "_" + yearWeekKey);
+        private String getWeekYear(LocalDateTime date) {
+            return date.get(WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear()) + "";
         }
 
         public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
             Configuration conf = context.getConfiguration();
             int k = Integer.parseInt(conf.get("K"));
-            String monthArg = conf.get("month");
+            String seed = conf.get("seed");
 
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode rootNode = objectMapper.readTree(value.toString());
@@ -69,9 +66,23 @@ public class ClashRoyale {
 
             String dateString = rootNode.get("date").asText();
             LocalDateTime date = LocalDateTime.parse(dateString, DateTimeFormatter.ISO_DATE_TIME);
-            String yearMonthKey = date.getYear() + "-" + date.getMonthValue();
-            if (!Objects.equals(monthArg, yearMonthKey))
-                return;
+
+            String[] seedSplit = seed.split("-");
+            String seedLevel = seedSplit[0];
+            String seedNumber = seedSplit[1];
+
+            switch (seedLevel) {
+                case "w":
+                    if (!Objects.equals(seedNumber, getWeekYear(date)))
+                        return;
+                    break;
+                case "m":
+                    if (!Objects.equals(seedNumber, getMonthYear(date)))
+                        return;
+                    break;
+                default:
+                    break;
+            }
 
             String cards = rootNode.get("cards").asText();
             String cards2 = rootNode.get("cards2").asText();
@@ -93,14 +104,12 @@ public class ClashRoyale {
                 return;
             }
 
-            String winnerCardsMonth = getMonthYear(date, winnerCards);
-
             int sum = 1;
-            if (victories.containsKey(winnerCardsMonth))
-                sum += victories.get(winnerCardsMonth);
+            if (victories.containsKey(winnerCards))
+                sum += victories.get(winnerCards);
 
             if (!winnerCards.isEmpty())
-                victories.put(winnerCardsMonth, sum);
+                victories.put(winnerCards, sum);
 
         }
 
@@ -124,9 +133,6 @@ public class ClashRoyale {
             for (IntWritable value : values) {
                 sum += value.get();
             }
-            String[] parts = key.toString().split("_");
-            String deck = parts[0];
-            String month = parts[1];
 
             victories.put(sum, key.toString());
 
@@ -136,28 +142,24 @@ public class ClashRoyale {
         }
 
         protected void cleanup(Context context) throws IOException, InterruptedException {
-            String month = victories.firstEntry().getValue().toString().split("_")[1].split("-")[1];
-            int monthInt = -1;
-            try {
-                monthInt = Integer.parseInt(month);
-            } finally {
 
-            }
-            context.write(new Text("Topk victories for month no :"), new IntWritable(monthInt));
+            // context.write(new Text("Topk victories for " + " no :"), new
+            // IntWritable(monthInt));
             for (Map.Entry<Integer, String> entry : victories.descendingMap().entrySet()) {
-                context.write(new Text(entry.getValue().split("_")[0]), new IntWritable(entry.getKey()));
+                context.write(new Text(entry.getValue()), new IntWritable(entry.getKey()));
             }
         }
     }
 
     public static void main(String[] args) throws Exception {
         if (args.length != 4) {
-            System.out.println("Invalid usage : you need to provide 3 arguments : <input_file> <output_file> <K>.");
+            System.out.println(
+                    "Invalid usage : you need to provide 4 arguments : <input_file> <output_file> <K> <seed-number>.");
             System.exit(1);
         }
         Configuration conf = new Configuration();
         conf.set("K", args[2]);
-        conf.set("month", args[3]);
+        conf.set("seed", args[3]);
         Job job = Job.getInstance(conf, "ClashRoyale");
 
         job.setNumReduceTasks(1);
