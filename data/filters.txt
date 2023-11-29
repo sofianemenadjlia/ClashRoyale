@@ -1,0 +1,12 @@
+filter 1 -> date,player,cards,crown,player2,cards2,crown2,win.
+
+
+File Input Format Counters 
+        Bytes Read=1 003 983 853
+File Output Format Counters 
+        Bytes Written=421
+
+File Input Format Counters 
+        Bytes Read=1 003 983 853
+File Output Format Counters 
+        Bytes Written=665
