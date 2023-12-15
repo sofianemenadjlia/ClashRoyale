@@ -1,4 +1,4 @@
-package clash_royale;
+package num_plays;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -41,10 +41,10 @@ import org.apache.hadoop.mapreduce.lib.input.SequenceFileInputFormat;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class ClashRoyale {
+public class NumPlays {
 
-    public static class clashMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
-        private TreeMap<String, Integer> victories = new TreeMap<String, Integer>();
+    public static class PlaysMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
+        private TreeMap<String, Integer> plays = new TreeMap<String, Integer>();
 
         private String getMonthYear(LocalDateTime date) {
             return date.getMonthValue() + "";
@@ -62,7 +62,6 @@ public class ClashRoyale {
 
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode rootNode = objectMapper.readTree(value.toString());
-            String winnerCards = new String();
 
             if (!rootNode.has("date") || !rootNode.has("player") ||
                     !rootNode.has("player2") || !rootNode.has("cards") ||
@@ -93,44 +92,35 @@ public class ClashRoyale {
 
             String cards = rootNode.get("cards").asText();
             String cards2 = rootNode.get("cards2").asText();
-            String crown = rootNode.get("crown").asText();
-            String crown2 = rootNode.get("crown2").asText();
-
-            try {
-                int crowns = Integer.parseInt(crown);
-                int crowns2 = Integer.parseInt(crown2);
-                if (crowns > crowns2)
-                    winnerCards = cards;
-                else if (crowns2 > crowns)
-                    winnerCards = cards2;
-                else
-                    return;
-
-            } catch (Exception e) {
-                return;
-            }
 
             int sum = 1;
-            if (victories.containsKey(winnerCards))
-                sum += victories.get(winnerCards);
+            if (plays.containsKey(cards))
+                sum += plays.get(cards);
 
-            if (!winnerCards.isEmpty())
-                victories.put(winnerCards, sum);
+            if (!cards.isEmpty())
+                plays.put(cards, sum);
+
+            sum = 1;
+            if (plays.containsKey(cards2))
+                sum += plays.get(cards2);
+
+            if (!cards2.isEmpty())
+                plays.put(cards2, sum);
 
         }
 
         protected void cleanup(Context context) throws IOException, InterruptedException {
 
-            for (Map.Entry<String, Integer> entry : victories.descendingMap().entrySet()) {
+            for (Map.Entry<String, Integer> entry : plays.descendingMap().entrySet()) {
                 context.write(new Text(entry.getKey()), new IntWritable(entry.getValue()));
             }
 
         }
     }
 
-    public static class clashReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
+    public static class PlaysReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
 
-        private TreeMap<Integer, String> victories = new TreeMap<Integer, String>();
+        private TreeMap<Integer, String> plays = new TreeMap<Integer, String>();
 
         public void reduce(Text key, Iterable<IntWritable> values, Context context)
                 throws IOException, InterruptedException {
@@ -142,53 +132,55 @@ public class ClashRoyale {
                 sum += value.get();
             }
 
-            victories.put(sum, key.toString());
+            plays.put(sum, key.toString());
 
-            if (victories.size() > k) {
-                victories.remove(victories.firstKey());
+            if (plays.size() > k) {
+                plays.remove(plays.firstKey());
             }
         }
 
         protected void cleanup(Context context) throws IOException, InterruptedException {
 
-            for (Map.Entry<Integer, String> entry : victories.descendingMap().entrySet()) {
+            for (Map.Entry<Integer, String> entry : plays.descendingMap().entrySet()) {
                 context.write(new Text(entry.getValue()), new IntWritable(entry.getKey()));
             }
         }
     }
 
-    public static void main(String[] args) throws Exception {
+    public static void runJob(String arg1, String arg2, String arg3, String arg4) throws Exception {
 
-        if (args.length != 4) {
-            System.out.println(
-                    "Invalid usage : you need to provide 4 arguments : <input_file> <output_file> <K> <seed-number>.");
-            System.exit(1);
-        }
+        // if (args.length != 4) {
+        // System.out.println(
+        // "Invalid usage : you need to provide 4 arguments : <input_file> <output_file>
+        // <K> <seed-number>.");
+        // System.exit(1);/user/smenadjlia/data-test/res-all
+        // }
 
         Configuration conf = new Configuration();
-        conf.set("K", args[2]);
-        conf.set("seed", args[3]);
-        Job job = Job.getInstance(conf, "ClashRoyale");
+        conf.set("K", arg3);
+        conf.set("seed", arg4);
+        Job job = Job.getInstance(conf, "NumPlays");
 
         job.setNumReduceTasks(1);
-        job.setJarByClass(ClashRoyale.class);
+        job.setJarByClass(NumPlays.class);
 
         job.setInputFormatClass(TextInputFormat.class);
         job.setOutputFormatClass(TextOutputFormat.class);
         // job.setInputFormatClass(SequenceFileInputFormat.class);
         // job.setOutputFormatClass(SequenceFileOutputFormat.class);
 
-        job.setMapperClass(clashMapper.class);
+        job.setMapperClass(PlaysMapper.class);
         job.setMapOutputKeyClass(Text.class);
         job.setMapOutputValueClass(IntWritable.class);
 
-        job.setReducerClass(clashReducer.class);
+        job.setReducerClass(PlaysReducer.class);
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(IntWritable.class);
 
-        TextInputFormat.addInputPath(job, new Path(args[0]));
-        TextOutputFormat.setOutputPath(job, new Path(args[1]));
+        TextInputFormat.addInputPath(job, new Path(arg1));
+        TextOutputFormat.setOutputPath(job, new Path(arg2));
 
         System.exit(job.waitForCompletion(true) ? 0 : 1);
     }
+
 }

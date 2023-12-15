@@ -1,4 +1,4 @@
-package clash_royale;
+package unique_players;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -41,10 +41,12 @@ import org.apache.hadoop.mapreduce.lib.input.SequenceFileInputFormat;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class ClashRoyale {
+public class UniquePlayers {
 
-    public static class clashMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
-        private TreeMap<String, Integer> victories = new TreeMap<String, Integer>();
+    public static class UniquePlayersMapper extends Mapper<LongWritable, Text, Text, Text> {
+        private HashSet<String> deckOnePlayers = new HashSet<String>();
+        private HashSet<String> deckTwoPlayers = new HashSet<String>();
+        private TreeMap<String, String> deckPlayers = new TreeMap<String, String>();
 
         private String getMonthYear(LocalDateTime date) {
             return date.getMonthValue() + "";
@@ -62,7 +64,6 @@ public class ClashRoyale {
 
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode rootNode = objectMapper.readTree(value.toString());
-            String winnerCards = new String();
 
             if (!rootNode.has("date") || !rootNode.has("player") ||
                     !rootNode.has("player2") || !rootNode.has("cards") ||
@@ -93,102 +94,116 @@ public class ClashRoyale {
 
             String cards = rootNode.get("cards").asText();
             String cards2 = rootNode.get("cards2").asText();
-            String crown = rootNode.get("crown").asText();
-            String crown2 = rootNode.get("crown2").asText();
+            String player = rootNode.get("player").asText();
+            String player2 = rootNode.get("player2").asText();
 
-            try {
-                int crowns = Integer.parseInt(crown);
-                int crowns2 = Integer.parseInt(crown2);
-                if (crowns > crowns2)
-                    winnerCards = cards;
-                else if (crowns2 > crowns)
-                    winnerCards = cards2;
-                else
-                    return;
+            if (!cards.isEmpty())
+                deckOnePlayers.add(player);
 
-            } catch (Exception e) {
-                return;
+            if (!cards2.isEmpty())
+                deckTwoPlayers.add(player2);
+
+            String playersOne = new String();
+            String playersTwo = new String();
+
+            for (String entry : deckOnePlayers) {
+                playersOne.concat(entry + "-");
+            }
+            for (String entry : deckTwoPlayers) {
+                playersTwo.concat(entry + "-");
             }
 
-            int sum = 1;
-            if (victories.containsKey(winnerCards))
-                sum += victories.get(winnerCards);
+            if (deckPlayers.containsKey(cards))
+                playersOne += deckPlayers.get(cards);
 
-            if (!winnerCards.isEmpty())
-                victories.put(winnerCards, sum);
+            if (!cards.isEmpty())
+                deckPlayers.put(cards, playersOne);
+
+            if (deckPlayers.containsKey(cards2))
+                playersTwo += deckPlayers.get(cards2);
+
+            if (!cards2.isEmpty())
+                deckPlayers.put(cards2, playersTwo);
 
         }
 
         protected void cleanup(Context context) throws IOException, InterruptedException {
 
-            for (Map.Entry<String, Integer> entry : victories.descendingMap().entrySet()) {
-                context.write(new Text(entry.getKey()), new IntWritable(entry.getValue()));
+            for (Map.Entry<String, String> entry : deckPlayers.entrySet()) {
+                context.write(new Text(entry.getKey()), new Text(entry.getValue()));
             }
-
         }
     }
 
-    public static class clashReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
+    public static class UniquePlayersReducer extends Reducer<Text, Text, Text, IntWritable> {
 
-        private TreeMap<Integer, String> victories = new TreeMap<Integer, String>();
+        private TreeMap<Integer, String> players = new TreeMap<Integer, String>();
+        private HashSet<String> uniquePlayers = new HashSet<String>();
 
-        public void reduce(Text key, Iterable<IntWritable> values, Context context)
+        public void reduce(Text key, Iterable<String> values, Context context)
                 throws IOException, InterruptedException {
 
             Configuration conf = context.getConfiguration();
             int k = Integer.parseInt(conf.get("K"));
-            int sum = 0;
-            for (IntWritable value : values) {
-                sum += value.get();
+
+            for (String value : values) {
+
+                String[] split = value.split("-");
+                for (int i = 0; i < split.length; i++)
+                    uniquePlayers.add(split[i]);
             }
 
-            victories.put(sum, key.toString());
+            players.put(uniquePlayers.size(), key.toString());
 
-            if (victories.size() > k) {
-                victories.remove(victories.firstKey());
+            if (players.size() > k) {
+                players.remove(players.firstKey());
             }
         }
 
         protected void cleanup(Context context) throws IOException, InterruptedException {
+            Text text = new Text();
+            for (Map.Entry<Integer, String> entry : players.descendingMap().entrySet()) {
+                text.set(entry.getValue());
 
-            for (Map.Entry<Integer, String> entry : victories.descendingMap().entrySet()) {
-                context.write(new Text(entry.getValue()), new IntWritable(entry.getKey()));
+                context.write(text, new IntWritable(entry.getKey()));
             }
         }
     }
 
-    public static void main(String[] args) throws Exception {
+    public static void runJob(String arg1, String arg2, String arg3, String arg4) throws Exception {
 
-        if (args.length != 4) {
-            System.out.println(
-                    "Invalid usage : you need to provide 4 arguments : <input_file> <output_file> <K> <seed-number>.");
-            System.exit(1);
-        }
+        // if (args.length != 4) {
+        // System.out.println(
+        // "Invalid usage : you need to provide 4 arguments : <input_file> <output_file>
+        // <K> <seed-number>.");
+        // System.exit(1);/user/smenadjlia/data-test/res-all
+        // }
 
         Configuration conf = new Configuration();
-        conf.set("K", args[2]);
-        conf.set("seed", args[3]);
-        Job job = Job.getInstance(conf, "ClashRoyale");
+        conf.set("K", arg3);
+        conf.set("seed", arg4);
+        Job job = Job.getInstance(conf, "UniquePlayers");
 
         job.setNumReduceTasks(1);
-        job.setJarByClass(ClashRoyale.class);
+        job.setJarByClass(UniquePlayers.class);
 
         job.setInputFormatClass(TextInputFormat.class);
         job.setOutputFormatClass(TextOutputFormat.class);
         // job.setInputFormatClass(SequenceFileInputFormat.class);
         // job.setOutputFormatClass(SequenceFileOutputFormat.class);
 
-        job.setMapperClass(clashMapper.class);
+        job.setMapperClass(UniquePlayersMapper.class);
         job.setMapOutputKeyClass(Text.class);
-        job.setMapOutputValueClass(IntWritable.class);
+        job.setMapOutputValueClass(Text.class);
 
-        job.setReducerClass(clashReducer.class);
+        job.setReducerClass(UniquePlayersReducer.class);
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(IntWritable.class);
 
-        TextInputFormat.addInputPath(job, new Path(args[0]));
-        TextOutputFormat.setOutputPath(job, new Path(args[1]));
+        TextInputFormat.addInputPath(job, new Path(arg1));
+        TextOutputFormat.setOutputPath(job, new Path(arg2));
 
         System.exit(job.waitForCompletion(true) ? 0 : 1);
     }
+
 }
