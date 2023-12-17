@@ -61,12 +61,10 @@ public class Stats {
                 winner = 2;
 
             Deck deck1 = new Deck(key.getCards(), winner == 1 ? 1 : 0, 1, key.getPlayer(),
-                    winner == 1 ? key.getClanTr() : 0, winner == 1 ? key.getDeck() - key.getDeck2() : 0,
-                    winner == 1 ? 1 : 0);
+                    winner == 1 ? key.getClanTr() : 0, winner == 1 ? key.getDeck() - key.getDeck2() : 0);
 
             Deck deck2 = new Deck(key.getCards2(), winner == 2 ? 1 : 0, 1, key.getPlayer2(),
-                    winner == 2 ? key.getClanTr2() : 0, winner == 2 ? key.getDeck2() - key.getDeck() : 0,
-                    winner == 2 ? 1 : 0);
+                    winner == 2 ? key.getClanTr2() : 0, winner == 2 ? key.getDeck2() - key.getDeck() : 0);
 
             context.write(new Text(deck1.getId()), deck1);
             context.write(new Text(deck2.getId()), deck2);
@@ -89,10 +87,9 @@ public class Stats {
 
                 finalDeck.setClanLevel(Math.max(value.getClanLevel(), finalDeck.getClanLevel()));
                 finalDeck.setAverageLevel(finalDeck.getAverageLevel() + value.getAverageLevel());
-                finalDeck.setAverageUses(finalDeck.getAverageUses() + value.getAverageUses());
             }
 
-            finalDeck.setAverageLevel(finalDeck.getAverageLevel() / finalDeck.getAverageUses());
+            finalDeck.setAverageLevel(finalDeck.getWins() == 0 ? 0 : finalDeck.getAverageLevel() / finalDeck.getWins());
 
             if (finalDeck.getUses() > 10)
                 context.write(new Text(finalDeck.getId()), finalDeck);
@@ -117,10 +114,9 @@ public class Stats {
 
                 finalDeck.setClanLevel(Math.max(value.getClanLevel(), finalDeck.getClanLevel()));
                 finalDeck.setAverageLevel(finalDeck.getAverageLevel() + value.getAverageLevel());
-                finalDeck.setAverageUses(finalDeck.getAverageUses() + value.getAverageUses());
             }
 
-            finalDeck.setAverageLevel(finalDeck.getAverageLevel() / finalDeck.getAverageUses());
+            finalDeck.setAverageLevel(finalDeck.getAverageLevel() / finalDeck.getWins());
 
             context.write(finalDeck, NullWritable.get());
 

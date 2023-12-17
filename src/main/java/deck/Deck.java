@@ -1,21 +1,25 @@
 package deck;
 
-import org.apache.hadoop.io.WritableComparable;
+import java.util.*;
+import java.util.Set;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
-import java.util.*;
+import org.apache.hadoop.io.WritableComparable;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 public class Deck implements WritableComparable<Deck> {
 
     private String id;
     private int wins;
     private int uses;
+    @JsonIgnore // This annotation will exclude the players field from serialization
     private Set<String> players;
     private int nbPlayers;
     private int clanLevel;
     private double averageLevel;
-    private int averageUses;
 
     public Deck() {
         // Initialization code, if necessary
@@ -27,8 +31,7 @@ public class Deck implements WritableComparable<Deck> {
         this.id = id;
     }
 
-    public Deck(String id, int wins, int uses, String player, int clanLevel, double averageLevel,
-            int averageUses) {
+    public Deck(String id, int wins, int uses, String player, int clanLevel, double averageLevel) {
 
         players = new HashSet<>();
         this.id = id;
@@ -38,7 +41,6 @@ public class Deck implements WritableComparable<Deck> {
         this.nbPlayers = this.players.size();
         this.clanLevel = clanLevel;
         this.averageLevel = averageLevel;
-        this.averageUses = averageUses;
     }
 
     // Getters and setters
@@ -100,14 +102,6 @@ public class Deck implements WritableComparable<Deck> {
         this.averageLevel = averageLevel;
     }
 
-    public int getAverageUses() {
-        return averageUses;
-    }
-
-    public void setAverageUses(int averageUses) {
-        this.averageUses = averageUses;
-    }
-
     @Override
     public void write(DataOutput out) throws IOException {
         out.writeUTF(id);
@@ -120,7 +114,6 @@ public class Deck implements WritableComparable<Deck> {
         out.writeInt(nbPlayers);
         out.writeInt(clanLevel);
         out.writeDouble(averageLevel);
-        out.writeInt(averageUses);
     }
 
     @Override
@@ -136,18 +129,14 @@ public class Deck implements WritableComparable<Deck> {
         nbPlayers = in.readInt();
         clanLevel = in.readInt();
         averageLevel = in.readDouble();
-        averageUses = in.readInt();
     }
 
     @Override
     public int compareTo(Deck other) {
-        // Implement this based on your sorting criteria
-        // Example: sorting primarily by wins
+
         int result = Integer.compare(wins, other.wins);
         if (result != 0)
             return result;
-
-        // Add further comparison logic if necessary
         return 0;
     }
 
@@ -162,13 +151,12 @@ public class Deck implements WritableComparable<Deck> {
                 uses == deck.uses &&
                 players == deck.players &&
                 clanLevel == deck.clanLevel &&
-                Double.compare(deck.averageLevel, averageLevel) == 0 &&
-                Integer.compare(deck.averageUses, averageUses) == 0;
+                Double.compare(deck.averageLevel, averageLevel) == 0;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(wins, uses, players, clanLevel, averageLevel, averageUses);
+        return Objects.hash(wins, uses, players, clanLevel, averageLevel);
     }
 
     @Override
@@ -180,7 +168,16 @@ public class Deck implements WritableComparable<Deck> {
                 ", nbPlayers=" + nbPlayers +
                 ", clanLevel=" + clanLevel +
                 ", averageLevel=" + averageLevel +
-                ", averageUses=" + averageUses +
                 '}';
+    }
+
+    public String toJson() {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            return mapper.writeValueAsString(this);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return null; // or handle the exception as per your requirement
+        }
     }
 }
