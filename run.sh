@@ -21,6 +21,5 @@ yarn jar target/ClashRoyale-0.0.1.jar
 
 hdfs dfs -get /user/smenadjlia/data-test/res-all/part-r-00000 data/
 
-# hdfs dfs -get /user/auber/data_ple/worldcitiespop.txt data/
+# hdfs dfs -mv /user/smenadjlia/data-test/res-all/part-r-00000 /user/smenadjlia/data/final-data.nljson
 
-# hdfs dfs -text /user/smenadjlia/data-test/seq/part-r-00000
