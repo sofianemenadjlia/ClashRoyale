@@ -33,6 +33,14 @@ for i in {1..52}; do
     done
 done
 
+# all data 
+
+# yarn jar target/ClashRoyale-0.0.1.jar /user/smenadjlia/data/GameData /user/smenadjlia/data/deck-stats/all 50 a-0 1
+
+# for j in {1..6}; do
+#     yarn jar target/ClashRoyale-0.0.1.jar /user/smenadjlia/data/all/part-r-00000  /user/smenadjlia/data/deck-stats/all/s$j 50 a-0 1
+# done
+
 # hdfs dfs -get /user/smenadjlia/data-test/res* data/results/ 
 
 # hdfs dfs -get /user/smenadjlia/data-test/res-all/part-r-00000 data/
