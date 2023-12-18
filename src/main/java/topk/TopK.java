@@ -32,56 +32,44 @@ import org.apache.hadoop.util.ToolRunner;
 import deck.Deck;
 
 public class TopK {
-    public static class TopkMapper extends Mapper<Deck, NullWritable, Text, DoubleWritable> {
-        private TreeMap<String, Double> topk = new TreeMap<String, Double>();
+    public static class TopkMapper extends Mapper<Deck, NullWritable, Text, Deck> {
 
         public void map(Deck key, NullWritable value, Context context) throws IOException, InterruptedException {
 
-            Configuration conf = context.getConfiguration();
-            int k = Integer.parseInt(conf.get("k"));
-            int stat = Integer.parseInt(conf.get("stat"));
-
-            if (stat >= 5 || stat < 0)
-                return;
-
-            List<Double> stats = new ArrayList<Double>();
-
-            stats.add((double) key.getWins());
-            stats.add((double) key.getUses());
-            stats.add((double) key.getNbPlayers());
-            stats.add((double) key.getClanLevel());
-            stats.add((double) key.getAverageLevel());
-
-            topk.put(key.getId(), (double) stats.get(stat));
-
+            context.write(new Text(key.getId()), key);
         }
 
-        protected void cleanup(Context context) throws IOException,
-                InterruptedException {
-
-            for (Map.Entry<String, Double> entry : topk.descendingMap().entrySet()) {
-                context.write(new Text(entry.getKey()), new DoubleWritable(entry.getValue()));
-            }
-
-        }
     }
 
-    public static class TopKReducer extends Reducer<Text, DoubleWritable, Text, DoubleWritable> {
+    public static class TopKReducer extends Reducer<Text, Deck, Text, Text> {
 
         private TreeMap<Double, String> topk = new TreeMap<Double, String>();
 
-        public void reduce(Text key, Iterable<DoubleWritable> values, Context context)
+        public void reduce(Text key, Iterable<Deck> values, Context context)
                 throws IOException, InterruptedException {
 
             Configuration conf = context.getConfiguration();
             int k = Integer.parseInt(conf.get("k"));
             int stat = Integer.parseInt(conf.get("stat"));
 
-            for (DoubleWritable value : values) {
-                topk.put(value.get(), key.toString());
+            if (stat >= 6 || stat < 0 || k < 1)
+                return;
+
+            for (Deck value : values) {
+
+                List<Double> stats = new ArrayList<Double>();
+                stats.add((double) value.getWins());
+                stats.add((double) value.getRatio());
+                stats.add((double) value.getUses());
+                stats.add((double) value.getNbPlayers());
+                stats.add((double) value.getClanLevel());
+                stats.add((double) value.getAverageLevel());
+
+                topk.put(stats.get(stat), value.toJson());
                 if (topk.size() > k) {
                     topk.remove(topk.firstKey());
                 }
+                break;
             }
 
         }
@@ -89,9 +77,21 @@ public class TopK {
         protected void cleanup(Context context) throws IOException,
                 InterruptedException {
 
+            Configuration conf = context.getConfiguration();
+            int k = Integer.parseInt(conf.get("k"));
+
+            context.write(new Text("["), new Text(""));
+
             for (Map.Entry<Double, String> entry : topk.descendingMap().entrySet()) {
-                context.write(new Text(entry.getValue()), new DoubleWritable(entry.getKey()));
+
+                // remove last element comma from json file
+                k--;
+                if (k == 0)
+                    context.write(new Text(entry.getValue()), new Text(""));
+                else
+                    context.write(new Text(entry.getValue()), new Text(","));
             }
+            context.write(new Text("]"), new Text(""));
         }
 
     }
@@ -114,11 +114,11 @@ public class TopK {
 
         job.setMapperClass(TopkMapper.class);
         job.setMapOutputKeyClass(Text.class);
-        job.setMapOutputValueClass(DoubleWritable.class);
+        job.setMapOutputValueClass(Deck.class);
 
         job.setReducerClass(TopKReducer.class);
         job.setOutputKeyClass(Text.class);
-        job.setOutputValueClass(DoubleWritable.class);
+        job.setOutputValueClass(Text.class);
 
         TextInputFormat.addInputPath(job, new Path(arg1));
         TextOutputFormat.setOutputPath(job, new Path(arg2));

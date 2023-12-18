@@ -39,19 +39,20 @@ public class Stats {
     public static class StatsMapper extends Mapper<ClashGame, NullWritable, Text, Deck> {
 
         public void map(ClashGame key, NullWritable value, Context context) throws IOException, InterruptedException {
-            // String seed = conf.get("seed");
+            Configuration conf = context.getConfiguration();
+            String seed = conf.get("seed");
 
-            // String[] seedSplit = seed.split("-");
-            // String seedLevel = seedSplit[0];
-            // String seedNumber = seedSplit[1];
+            String[] seedSplit = seed.split("-");
+            String seedLevel = seedSplit[0];
+            int seedNumber = Integer.parseInt(seedSplit[1]);
 
-            // if (seedLevel.equals("m"))
-            // if (!key.getMonth().equals(seedNumber))
-            // return;
+            if (seedLevel.equals("m"))
+                if (key.getMonth() != seedNumber)
+                    return;
 
-            // if (seedLevel.equals("w"))
-            // if (!key.getWeek().equals(seedNumber))
-            // return;
+            if (seedLevel.equals("w"))
+                if (key.getWeek() != seedNumber)
+                    return;
 
             int winner = 0;
 
@@ -60,10 +61,10 @@ public class Stats {
             else if (key.getCrown2() > key.getCrown())
                 winner = 2;
 
-            Deck deck1 = new Deck(key.getCards(), winner == 1 ? 1 : 0, 1, key.getPlayer(),
+            Deck deck1 = new Deck(key.getCards(), winner == 1 ? 1 : 0, 1.0, 1, key.getPlayer(),
                     winner == 1 ? key.getClanTr() : 0, winner == 1 ? key.getDeck() - key.getDeck2() : 0);
 
-            Deck deck2 = new Deck(key.getCards2(), winner == 2 ? 1 : 0, 1, key.getPlayer2(),
+            Deck deck2 = new Deck(key.getCards2(), winner == 2 ? 1 : 0, 1.0, 1, key.getPlayer2(),
                     winner == 2 ? key.getClanTr2() : 0, winner == 2 ? key.getDeck2() - key.getDeck() : 0);
 
             context.write(new Text(deck1.getId()), deck1);
@@ -89,8 +90,6 @@ public class Stats {
                 finalDeck.setAverageLevel(finalDeck.getAverageLevel() + value.getAverageLevel());
             }
 
-            finalDeck.setAverageLevel(finalDeck.getWins() == 0 ? 0 : finalDeck.getAverageLevel() / finalDeck.getWins());
-
             if (finalDeck.getUses() > 10)
                 context.write(new Text(finalDeck.getId()), finalDeck);
 
@@ -115,8 +114,10 @@ public class Stats {
                 finalDeck.setClanLevel(Math.max(value.getClanLevel(), finalDeck.getClanLevel()));
                 finalDeck.setAverageLevel(finalDeck.getAverageLevel() + value.getAverageLevel());
             }
+            double avg = finalDeck.getWins() == 0 ? 0 : finalDeck.getAverageLevel() / finalDeck.getWins();
+            finalDeck.setAverageLevel(avg);
 
-            finalDeck.setAverageLevel(finalDeck.getAverageLevel() / finalDeck.getWins());
+            finalDeck.setRatio((double) finalDeck.getWins() / finalDeck.getUses());
 
             context.write(finalDeck, NullWritable.get());
 
@@ -124,9 +125,10 @@ public class Stats {
 
     }
 
-    public static void runJob(String arg1, String arg2) throws Exception {
+    public static void runJob(String arg1, String arg2, String arg3) throws Exception {
 
         Configuration conf = new Configuration();
+        conf.set("seed", arg3);
 
         Job job = Job.getInstance(conf, "Stats");
 

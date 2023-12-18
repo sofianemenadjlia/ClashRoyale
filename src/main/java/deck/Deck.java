@@ -14,6 +14,7 @@ public class Deck implements WritableComparable<Deck> {
 
     private String id;
     private int wins;
+    private double ratio;
     private int uses;
     @JsonIgnore // This annotation will exclude the players field from serialization
     private Set<String> players;
@@ -31,11 +32,12 @@ public class Deck implements WritableComparable<Deck> {
         this.id = id;
     }
 
-    public Deck(String id, int wins, int uses, String player, int clanLevel, double averageLevel) {
+    public Deck(String id, int wins, double ratio, int uses, String player, int clanLevel, double averageLevel) {
 
         players = new HashSet<>();
         this.id = id;
         this.wins = wins;
+        this.ratio = ratio;
         this.uses = uses;
         this.addPlayer(player);
         this.nbPlayers = this.players.size();
@@ -59,6 +61,14 @@ public class Deck implements WritableComparable<Deck> {
 
     public void setWins(int wins) {
         this.wins = wins;
+    }
+
+    public double getRatio() {
+        return ratio;
+    }
+
+    public void setRatio(double ratio) {
+        this.ratio = ratio;
     }
 
     public int getUses() {
@@ -106,6 +116,7 @@ public class Deck implements WritableComparable<Deck> {
     public void write(DataOutput out) throws IOException {
         out.writeUTF(id);
         out.writeInt(wins);
+        out.writeDouble(ratio);
         out.writeInt(uses);
         out.writeInt(players.size());
         for (String player : players) {
@@ -120,6 +131,7 @@ public class Deck implements WritableComparable<Deck> {
     public void readFields(DataInput in) throws IOException {
         id = in.readUTF();
         wins = in.readInt();
+        ratio = in.readDouble();
         uses = in.readInt();
         int playersSize = in.readInt();
         players = new HashSet<>();
@@ -148,15 +160,16 @@ public class Deck implements WritableComparable<Deck> {
             return false;
         Deck deck = (Deck) o;
         return wins == deck.wins &&
+                ratio == deck.ratio &&
                 uses == deck.uses &&
-                players == deck.players &&
+                nbPlayers == deck.nbPlayers &&
                 clanLevel == deck.clanLevel &&
-                Double.compare(deck.averageLevel, averageLevel) == 0;
+                averageLevel == deck.averageLevel;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(wins, uses, players, clanLevel, averageLevel);
+        return Objects.hash(wins, ratio, uses, nbPlayers, clanLevel, averageLevel);
     }
 
     @Override
@@ -164,6 +177,7 @@ public class Deck implements WritableComparable<Deck> {
         return "Deck{" +
                 "id=" + id +
                 ", wins=" + wins +
+                ", ratio=" + ratio +
                 ", uses=" + uses +
                 ", nbPlayers=" + nbPlayers +
                 ", clanLevel=" + clanLevel +
