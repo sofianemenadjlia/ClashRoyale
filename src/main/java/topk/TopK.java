@@ -121,8 +121,7 @@ public class TopK {
         }
 
         // private void writeToHBase(String value) throws IOException {
-        // Put put = new Put(Bytes.toBytes("topkTest")); // Replace with appropriate row
-        // key
+        // Put put = new Put(Bytes.toBytes("topkTest")); 
         // put.addColumn(Bytes.toBytes("topk"), Bytes.toBytes("topkJson"),
         // Bytes.toBytes(value));
         // hbaseTable.put(put);

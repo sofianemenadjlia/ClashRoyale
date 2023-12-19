@@ -98,7 +98,7 @@ public class Filter {
             cards = sortAndMergeHexStrings(cards2);
 
             if (dateString.isEmpty() || player.isEmpty() || player2.isEmpty() ||
-                    cards.isEmpty() || cards.isEmpty())
+                    cards.isEmpty() || cards2.isEmpty())
 
                 return;
 
