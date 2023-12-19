@@ -1,52 +1,452 @@
-[	
-{"id":"0a0e151e264d5a65","wins":4899,"ratio":0.4908325819056207,"uses":9981,"nbPlayers":5772,"clanLevel":7757,"averageLevel":0.22488007756685038}	,
-{"id":"04242a2e323e6263","wins":3987,"ratio":0.5253656608248781,"uses":7589,"nbPlayers":4594,"clanLevel":7757,"averageLevel":0.27487772761474794}	,
-{"id":"02151e4041516568","wins":3456,"ratio":0.45641838351822506,"uses":7572,"nbPlayers":4293,"clanLevel":7757,"averageLevel":0.02361834490740741}	,
-{"id":"001a1e29505d5e65","wins":3043,"ratio":0.4697437480703921,"uses":6478,"nbPlayers":4405,"clanLevel":7757,"averageLevel":0.21311206046664477}	,
-{"id":"062223253f5f6669","wins":2678,"ratio":0.4577777777777778,"uses":5850,"nbPlayers":3760,"clanLevel":7757,"averageLevel":0.3456170649738611}	,
-{"id":"04242a2e323e5a62","wins":2581,"ratio":0.5019447685725399,"uses":5142,"nbPlayers":3630,"clanLevel":7757,"averageLevel":0.3060586981790004}	,
-{"id":"000f175663646669","wins":2074,"ratio":0.448820601601385,"uses":4621,"nbPlayers":3069,"clanLevel":7757,"averageLevel":0.1016453712632594}	,
-{"id":"0f17445663646669","wins":1863,"ratio":0.500402900886382,"uses":3723,"nbPlayers":2716,"clanLevel":7757,"averageLevel":0.37546967257112185}	,
-{"id":"0d464b4c4d616669","wins":1487,"ratio":0.5362423368193292,"uses":2773,"nbPlayers":2128,"clanLevel":7757,"averageLevel":0.35654841963685274}	,
-{"id":"060f2223255f6669","wins":1174,"ratio":0.47996729354047424,"uses":2446,"nbPlayers":2018,"clanLevel":7757,"averageLevel":0.3716993185689949}	,
-{"id":"0a151e4041516568","wins":1131,"ratio":0.4868704261730521,"uses":2323,"nbPlayers":1881,"clanLevel":7757,"averageLevel":0.05122679045092838}	,
-{"id":"06081d2025485b62","wins":1130,"ratio":0.451638689048761,"uses":2502,"nbPlayers":1865,"clanLevel":7757,"averageLevel":0.10530973451327434}	,
-{"id":"1320252931373862","wins":1058,"ratio":0.4813466787989081,"uses":2198,"nbPlayers":1806,"clanLevel":7757,"averageLevel":0.1756852551984877}	,
-{"id":"2f34393b4a585a69","wins":1038,"ratio":0.5400624349635796,"uses":1922,"nbPlayers":1619,"clanLevel":7757,"averageLevel":0.22260356454720617}	,
-{"id":"0b1a1e29505d5e65","wins":958,"ratio":0.4867886178861789,"uses":1968,"nbPlayers":1672,"clanLevel":7537,"averageLevel":0.23917014613778706}	,
-{"id":"0405242a2e326263","wins":911,"ratio":0.5199771689497716,"uses":1752,"nbPlayers":1499,"clanLevel":7757,"averageLevel":0.259261800219539}	,
-{"id":"020e151e414f6568","wins":858,"ratio":0.49480968858131485,"uses":1734,"nbPlayers":1412,"clanLevel":7757,"averageLevel":-0.041011072261072264}	,
-{"id":"08242e323e455b6a","wins":848,"ratio":0.443282801881861,"uses":1913,"nbPlayers":1380,"clanLevel":7757,"averageLevel":0.09249705188679246}	,
-{"id":"0a0b151e40536568","wins":804,"ratio":0.47266313932980597,"uses":1701,"nbPlayers":1489,"clanLevel":7757,"averageLevel":0.169931592039801}	,
-{"id":"18343d4449565a69","wins":766,"ratio":0.45352279455298994,"uses":1689,"nbPlayers":1304,"clanLevel":7757,"averageLevel":0.12165469973890339}	,
-{"id":"06081d2748565a62","wins":756,"ratio":0.428328611898017,"uses":1765,"nbPlayers":1461,"clanLevel":7737,"averageLevel":0.03761574074074074}	,
-{"id":"00010a1e53555a65","wins":729,"ratio":0.4394213381555154,"uses":1659,"nbPlayers":1463,"clanLevel":7857,"averageLevel":0.16906721536351166}	,
-{"id":"2f34393b585a5b69","wins":707,"ratio":0.47673634524612274,"uses":1483,"nbPlayers":1290,"clanLevel":7757,"averageLevel":0.15107850070721357}	,
-{"id":"091b233f4c546669","wins":704,"ratio":0.4975265017667845,"uses":1415,"nbPlayers":1226,"clanLevel":7757,"averageLevel":0.27894176136363635}	,
-{"id":"101a2829355d5e65","wins":703,"ratio":0.5362318840579711,"uses":1311,"nbPlayers":1157,"clanLevel":7757,"averageLevel":0.2238620199146515}	,
-{"id":"0013203a3e516566","wins":674,"ratio":0.4408109875735775,"uses":1529,"nbPlayers":1341,"clanLevel":7737,"averageLevel":0.22125370919881307}	,
-{"id":"18343d4449565a65","wins":653,"ratio":0.4891385767790262,"uses":1335,"nbPlayers":1079,"clanLevel":7757,"averageLevel":0.10308192955589586}	,
-{"id":"121b21272a3c5c62","wins":647,"ratio":0.47329919531821507,"uses":1367,"nbPlayers":1185,"clanLevel":7757,"averageLevel":0.2560857805255023}	,
-{"id":"2f34393b46585b69","wins":636,"ratio":0.5003933910306845,"uses":1271,"nbPlayers":1131,"clanLevel":7757,"averageLevel":0.20007861635220126}	,
-{"id":"001a1e29535d5e65","wins":547,"ratio":0.4201228878648233,"uses":1302,"nbPlayers":1172,"clanLevel":7757,"averageLevel":0.1853290676416819}	,
-{"id":"17444c5663646669","wins":540,"ratio":0.5217391304347826,"uses":1035,"nbPlayers":955,"clanLevel":7554,"averageLevel":0.4136574074074074}	,
-{"id":"01464b4c4d616669","wins":533,"ratio":0.5850713501646543,"uses":911,"nbPlayers":844,"clanLevel":7717,"averageLevel":0.3205909943714822}	,
-{"id":"132025293137386b","wins":528,"ratio":0.5505735140771637,"uses":959,"nbPlayers":870,"clanLevel":7757,"averageLevel":0.2881155303030303}	,
-{"id":"2f34393b46585a69","wins":521,"ratio":0.5173783515392254,"uses":1007,"nbPlayers":888,"clanLevel":7757,"averageLevel":0.1952975047984645}	,
-{"id":"242b2e323e455c6a","wins":520,"ratio":0.5485232067510548,"uses":948,"nbPlayers":783,"clanLevel":7737,"averageLevel":0.28894230769230766}	,
-{"id":"2f34393b4a585a5b","wins":493,"ratio":0.4881188118811881,"uses":1010,"nbPlayers":887,"clanLevel":7757,"averageLevel":0.16911764705882354}	,
-{"id":"0b0f175663646669","wins":485,"ratio":0.5020703933747412,"uses":966,"nbPlayers":908,"clanLevel":7737,"averageLevel":0.30670103092783507}	,
-{"id":"001a294a505d5e65","wins":441,"ratio":0.48783185840707965,"uses":904,"nbPlayers":838,"clanLevel":7757,"averageLevel":0.18268140589569162}	,
-{"id":"0a1f3b454d65686c","wins":418,"ratio":0.5565912117177098,"uses":751,"nbPlayers":701,"clanLevel":7757,"averageLevel":0.22323564593301434}	,
-{"id":"000c1a2838505e65","wins":408,"ratio":0.48226950354609927,"uses":846,"nbPlayers":768,"clanLevel":7737,"averageLevel":0.13189338235294118}	,
-{"id":"2f34393b46585a5b","wins":395,"ratio":0.525965379494008,"uses":751,"nbPlayers":690,"clanLevel":7737,"averageLevel":0.1906645569620253}	,
-{"id":"1b212a2b3c5c626a","wins":393,"ratio":0.4700956937799043,"uses":836,"nbPlayers":778,"clanLevel":7757,"averageLevel":0.31329516539440205}	,
-{"id":"252b3f42435b5c62","wins":381,"ratio":0.43148357870894677,"uses":883,"nbPlayers":805,"clanLevel":7574,"averageLevel":0.27165354330708663}	,
-{"id":"00010a4a53555a65","wins":377,"ratio":0.42889647326507396,"uses":879,"nbPlayers":803,"clanLevel":7534,"averageLevel":0.21767241379310345}	,
-{"id":"02151e4041506568","wins":375,"ratio":0.47588832487309646,"uses":788,"nbPlayers":681,"clanLevel":7757,"averageLevel":0.03333333333333333}	,
-{"id":"04242a2e323e636b","wins":371,"ratio":0.5587349397590361,"uses":664,"nbPlayers":613,"clanLevel":7737,"averageLevel":0.3428234501347709}	,
-{"id":"143234393b3d495b","wins":361,"ratio":0.4743758212877792,"uses":761,"nbPlayers":683,"clanLevel":7537,"averageLevel":0.1772853185595568}	,
-{"id":"081d20253948565b","wins":360,"ratio":0.43902439024390244,"uses":820,"nbPlayers":702,"clanLevel":7757,"averageLevel":0.06822916666666666}	,
-{"id":"40154168021e6551","wins":346,"ratio":0.49712643678160917,"uses":696,"nbPlayers":346,"clanLevel":7574,"averageLevel":0.2434971098265896}	,
-{"id":"02151e404151686b","wins":344,"ratio":0.45322793148880103,"uses":759,"nbPlayers":686,"clanLevel":7737,"averageLevel":0.0884811046511628}	
-]	
+[
+    {
+        "id": "02151e4041516568",
+        "wins": 12710,
+        "ratio": 0.5496929331372719,
+        "uses": 23122,
+        "nbPlayers": 4097,
+        "clanLevel": 7757,
+        "averageLevel": 0.3442319040125885
+    },
+    {
+        "id": "0a0e151e264d5a65",
+        "wins": 9268,
+        "ratio": 0.49846716506212013,
+        "uses": 18593,
+        "nbPlayers": 7136,
+        "clanLevel": 7319,
+        "averageLevel": 0.21451499784203712
+    },
+    {
+        "id": "04242a2e323e6263",
+        "wins": 8660,
+        "ratio": 0.44462699594393384,
+        "uses": 19477,
+        "nbPlayers": 4277,
+        "clanLevel": 7574,
+        "averageLevel": 0.17446593533487298
+    },
+    {
+        "id": "062223253f5f6669",
+        "wins": 8635,
+        "ratio": 0.5079710571210071,
+        "uses": 16999,
+        "nbPlayers": 3057,
+        "clanLevel": 7574,
+        "averageLevel": -0.03142009264620729
+    },
+    {
+        "id": "001a1e29505d5e65",
+        "wins": 7963,
+        "ratio": 0.5375320642635345,
+        "uses": 14814,
+        "nbPlayers": 4428,
+        "clanLevel": 7757,
+        "averageLevel": 0.2621028506844154
+    },
+    {
+        "id": "000f175663646669",
+        "wins": 6798,
+        "ratio": 0.5622363741626003,
+        "uses": 12091,
+        "nbPlayers": 2577,
+        "clanLevel": 7757,
+        "averageLevel": 0.27622094733745217
+    },
+    {
+        "id": "04242a2e323e5a62",
+        "wins": 5619,
+        "ratio": 0.47143216712811475,
+        "uses": 11919,
+        "nbPlayers": 3257,
+        "clanLevel": 7574,
+        "averageLevel": 0.07361185264281901
+    },
+    {
+        "id": "0f17445663646669",
+        "wins": 5257,
+        "ratio": 0.4894785847299814,
+        "uses": 10740,
+        "nbPlayers": 2189,
+        "clanLevel": 7757,
+        "averageLevel": 0.06126355335742819
+    },
+    {
+        "id": "06081d2025485b62",
+        "wins": 3902,
+        "ratio": 0.5001281722635221,
+        "uses": 7802,
+        "nbPlayers": 1290,
+        "clanLevel": 7757,
+        "averageLevel": 0.28030497180932856
+    },
+    {
+        "id": "060f2223255f6669",
+        "wins": 3534,
+        "ratio": 0.48397699260476584,
+        "uses": 7302,
+        "nbPlayers": 1400,
+        "clanLevel": 7574,
+        "averageLevel": 0.0400219298245614
+    },
+    {
+        "id": "0d464b4c4d616669",
+        "wins": 3481,
+        "ratio": 0.4838082001389854,
+        "uses": 7195,
+        "nbPlayers": 1608,
+        "clanLevel": 7517,
+        "averageLevel": 0.06391841424877909
+    },
+    {
+        "id": "0a151e4041516568",
+        "wins": 3409,
+        "ratio": 0.5311623558741041,
+        "uses": 6418,
+        "nbPlayers": 1451,
+        "clanLevel": 7757,
+        "averageLevel": 0.3298804634790261
+    },
+    {
+        "id": "1320252931373862",
+        "wins": 2872,
+        "ratio": 0.5029772329246935,
+        "uses": 5710,
+        "nbPlayers": 1187,
+        "clanLevel": 7574,
+        "averageLevel": 0.18088440111420612
+    },
+    {
+        "id": "18343d4449565a69",
+        "wins": 2793,
+        "ratio": 0.553837001784652,
+        "uses": 5043,
+        "nbPlayers": 905,
+        "clanLevel": 7757,
+        "averageLevel": 0.19372090941639813
+    },
+    {
+        "id": "08242e323e455b6a",
+        "wins": 2740,
+        "ratio": 0.5537590945836701,
+        "uses": 4948,
+        "nbPlayers": 999,
+        "clanLevel": 7757,
+        "averageLevel": 0.2345118613138686
+    },
+    {
+        "id": "06081d2748565a62",
+        "wins": 2669,
+        "ratio": 0.5448050622576036,
+        "uses": 4899,
+        "nbPlayers": 1037,
+        "clanLevel": 7757,
+        "averageLevel": 0.28423566878980894
+    },
+    {
+        "id": "020e151e414f6568",
+        "wins": 2639,
+        "ratio": 0.5021883920076118,
+        "uses": 5255,
+        "nbPlayers": 923,
+        "clanLevel": 7757,
+        "averageLevel": 0.3475511557408109
+    },
+    {
+        "id": "2f34393b4a585a69",
+        "wins": 2487,
+        "ratio": 0.4530054644808743,
+        "uses": 5490,
+        "nbPlayers": 959,
+        "clanLevel": 7757,
+        "averageLevel": 0.19260152794531565
+    },
+    {
+        "id": "0b1a1e29505d5e65",
+        "wins": 2480,
+        "ratio": 0.5085093295058437,
+        "uses": 4877,
+        "nbPlayers": 1385,
+        "clanLevel": 6505,
+        "averageLevel": 0.11615423387096774
+    },
+    {
+        "id": "000c1a2838505e65",
+        "wins": 2299,
+        "ratio": 0.528020211299954,
+        "uses": 4354,
+        "nbPlayers": 537,
+        "clanLevel": 7534,
+        "averageLevel": 0.2871900826446281
+    },
+    {
+        "id": "2f34393b46585b69",
+        "wins": 2206,
+        "ratio": 0.4861172322609079,
+        "uses": 4538,
+        "nbPlayers": 688,
+        "clanLevel": 7494,
+        "averageLevel": 0.1271248866727108
+    },
+    {
+        "id": "0405242a2e326263",
+        "wins": 2189,
+        "ratio": 0.4674354046551356,
+        "uses": 4683,
+        "nbPlayers": 971,
+        "clanLevel": 7184,
+        "averageLevel": 0.15577889447236182
+    },
+    {
+        "id": "0013203a3e516566",
+        "wins": 2175,
+        "ratio": 0.5605670103092784,
+        "uses": 3880,
+        "nbPlayers": 1135,
+        "clanLevel": 7737,
+        "averageLevel": 0.22775862068965516
+    },
+    {
+        "id": "2f34393b585a5b69",
+        "wins": 2162,
+        "ratio": 0.5078693915903219,
+        "uses": 4257,
+        "nbPlayers": 852,
+        "clanLevel": 7574,
+        "averageLevel": 0.20250346901017577
+    },
+    {
+        "id": "0a0b151e40536568",
+        "wins": 2138,
+        "ratio": 0.51780092031969,
+        "uses": 4129,
+        "nbPlayers": 1138,
+        "clanLevel": 7574,
+        "averageLevel": 0.34497778297474274
+    },
+    {
+        "id": "00010a1e53555a65",
+        "wins": 2132,
+        "ratio": 0.5796628602501359,
+        "uses": 3678,
+        "nbPlayers": 1101,
+        "clanLevel": 7857,
+        "averageLevel": 0.27031543151969983
+    },
+    {
+        "id": "0b0c1a2838505e65",
+        "wins": 1933,
+        "ratio": 0.5056238556107768,
+        "uses": 3823,
+        "nbPlayers": 397,
+        "clanLevel": 7574,
+        "averageLevel": 0.29293843766166583
+    },
+    {
+        "id": "18343d4449565a65",
+        "wins": 1899,
+        "ratio": 0.5,
+        "uses": 3798,
+        "nbPlayers": 658,
+        "clanLevel": 7574,
+        "averageLevel": 0.2933451816745656
+    },
+    {
+        "id": "091b233f4c546669",
+        "wins": 1776,
+        "ratio": 0.4810400866738895,
+        "uses": 3692,
+        "nbPlayers": 768,
+        "clanLevel": 7574,
+        "averageLevel": 0.07615427927927929
+    },
+    {
+        "id": "121b21272a3c5c62",
+        "wins": 1715,
+        "ratio": 0.47572815533980584,
+        "uses": 3605,
+        "nbPlayers": 649,
+        "clanLevel": 7697,
+        "averageLevel": 0.05881924198250729
+    },
+    {
+        "id": "001a1e29535d5e65",
+        "wins": 1704,
+        "ratio": 0.5863730213351687,
+        "uses": 2906,
+        "nbPlayers": 915,
+        "clanLevel": 7577,
+        "averageLevel": 0.3074383802816901
+    },
+    {
+        "id": "2f34393b46585a69",
+        "wins": 1635,
+        "ratio": 0.466343411294923,
+        "uses": 3506,
+        "nbPlayers": 489,
+        "clanLevel": 7504,
+        "averageLevel": 0.1878058103975535
+    },
+    {
+        "id": "2f34393b4a585a5b",
+        "wins": 1579,
+        "ratio": 0.4695212607790663,
+        "uses": 3363,
+        "nbPlayers": 493,
+        "clanLevel": 7574,
+        "averageLevel": 0.1538948701709943
+    },
+    {
+        "id": "02151e404151686b",
+        "wins": 1469,
+        "ratio": 0.5587675922403956,
+        "uses": 2629,
+        "nbPlayers": 405,
+        "clanLevel": 7757,
+        "averageLevel": 0.2714006126616746
+    },
+    {
+        "id": "17444c5663646669",
+        "wins": 1406,
+        "ratio": 0.5084990958408679,
+        "uses": 2765,
+        "nbPlayers": 629,
+        "clanLevel": 7697,
+        "averageLevel": -0.031205547652916076
+    },
+    {
+        "id": "143234393b3d495b",
+        "wins": 1334,
+        "ratio": 0.5453802125919869,
+        "uses": 2446,
+        "nbPlayers": 437,
+        "clanLevel": 7574,
+        "averageLevel": 0.13127811094452774
+    },
+    {
+        "id": "101a2829355d5e65",
+        "wins": 1194,
+        "ratio": 0.4682352941176471,
+        "uses": 2550,
+        "nbPlayers": 680,
+        "clanLevel": 7339,
+        "averageLevel": 0.07359715242881072
+    },
+    {
+        "id": "020b151e2d5d6566",
+        "wins": 1185,
+        "ratio": 0.5188266199649737,
+        "uses": 2284,
+        "nbPlayers": 356,
+        "clanLevel": 7204,
+        "averageLevel": 0.3183544303797468
+    },
+    {
+        "id": "00010a4a53555a65",
+        "wins": 1170,
+        "ratio": 0.5625,
+        "uses": 2080,
+        "nbPlayers": 646,
+        "clanLevel": 7257,
+        "averageLevel": 0.26164529914529916
+    },
+    {
+        "id": "0a18233d4a4c5a69",
+        "wins": 1162,
+        "ratio": 0.6045785639958376,
+        "uses": 1922,
+        "nbPlayers": 322,
+        "clanLevel": 7757,
+        "averageLevel": 0.2525279690189329
+    },
+    {
+        "id": "0b0f175663646669",
+        "wins": 1157,
+        "ratio": 0.49317988064791135,
+        "uses": 2346,
+        "nbPlayers": 644,
+        "clanLevel": 7037,
+        "averageLevel": 0.060771391529818496
+    },
+    {
+        "id": "1b212a2b3c5c626a",
+        "wins": 1141,
+        "ratio": 0.5116591928251121,
+        "uses": 2230,
+        "nbPlayers": 484,
+        "clanLevel": 7574,
+        "averageLevel": 0.06343120070113935
+    },
+    {
+        "id": "001a294a505d5e65",
+        "wins": 1137,
+        "ratio": 0.4975929978118162,
+        "uses": 2285,
+        "nbPlayers": 572,
+        "clanLevel": 7494,
+        "averageLevel": 0.2380716798592788
+    },
+    {
+        "id": "06081d2748565a5b",
+        "wins": 1133,
+        "ratio": 0.5742524075012672,
+        "uses": 1973,
+        "nbPlayers": 424,
+        "clanLevel": 7757,
+        "averageLevel": 0.35127978817299205
+    },
+    {
+        "id": "02151e4041506568",
+        "wins": 1121,
+        "ratio": 0.4867564046895354,
+        "uses": 2303,
+        "nbPlayers": 420,
+        "clanLevel": 7757,
+        "averageLevel": 0.24052185548617305
+    },
+    {
+        "id": "242b2e323e455c6a",
+        "wins": 1107,
+        "ratio": 0.42203583682805945,
+        "uses": 2623,
+        "nbPlayers": 552,
+        "clanLevel": 7737,
+        "averageLevel": 0.011630532971996387
+    },
+    {
+        "id": "2f34393b46585a5b",
+        "wins": 1081,
+        "ratio": 0.4557335581787521,
+        "uses": 2372,
+        "nbPlayers": 384,
+        "clanLevel": 7757,
+        "averageLevel": 0.18125578168362627
+    },
+    {
+        "id": "0c28293638444f5a",
+        "wins": 1012,
+        "ratio": 0.5397333333333333,
+        "uses": 1875,
+        "nbPlayers": 264,
+        "clanLevel": 7757,
+        "averageLevel": 0.20170454545454544
+    },
+    {
+        "id": "0809233f48546669",
+        "wins": 993,
+        "ratio": 0.5733256351039261,
+        "uses": 1732,
+        "nbPlayers": 430,
+        "clanLevel": 7757,
+        "averageLevel": 0.2843655589123867
+    },
+    {
+        "id": "0a18323d4a4c5a69",
+        "wins": 986,
+        "ratio": 0.6220820189274447,
+        "uses": 1585,
+        "nbPlayers": 349,
+        "clanLevel": 7757,
+        "averageLevel": 0.24156947261663286
+    }
+]
