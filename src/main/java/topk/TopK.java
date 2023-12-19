@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Table;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
@@ -28,6 +29,10 @@ import org.apache.hadoop.mapreduce.lib.output.SequenceFileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
+// import org.apache.hadoop.hbase.HBaseConfiguration;
+// import org.apache.hadoop.hbase.TableName;
+// import org.apache.hadoop.hbase.client.*;
+// import org.apache.hadoop.hbase.util.Bytes;
 
 import deck.Deck;
 
@@ -44,6 +49,17 @@ public class TopK {
     public static class TopKReducer extends Reducer<Text, Deck, Text, Text> {
 
         private TreeMap<Double, String> topk = new TreeMap<Double, String>();
+
+        // private Connection connection;
+        // private Table hbaseTable;
+
+        // @Override
+        // protected void setup(Context context) throws IOException {
+        // Configuration conf = HBaseConfiguration.create(context.getConfiguration());
+        // this.connection = ConnectionFactory.createConnection(conf);
+
+        // this.hbaseTable = connection.getTable(TableName.valueOf("clashtable"));
+        // }
 
         public void reduce(Text key, Iterable<Deck> values, Context context)
                 throws IOException, InterruptedException {
@@ -90,9 +106,27 @@ public class TopK {
                     context.write(new Text(entry.getValue()), new Text(""));
                 else
                     context.write(new Text(entry.getValue()), new Text(","));
+
+                // writeToHBase(entry.getValue());
+
             }
             context.write(new Text("]"), new Text(""));
+
+            // if (hbaseTable != null) {
+            // hbaseTable.close();
+            // }
+            // if (connection != null && !connection.isClosed()) {
+            // connection.close();
+            // }
         }
+
+        // private void writeToHBase(String value) throws IOException {
+        // Put put = new Put(Bytes.toBytes("topkTest")); // Replace with appropriate row
+        // key
+        // put.addColumn(Bytes.toBytes("topk"), Bytes.toBytes("topkJson"),
+        // Bytes.toBytes(value));
+        // hbaseTable.put(put);
+        // }
 
     }
 

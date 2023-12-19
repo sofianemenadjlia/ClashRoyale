@@ -1,27 +1,63 @@
-rm -rf target/
+#!/bin/bash
 
-mvn package
+# Change to the directory containing the "final-data" folder
+cd data/final-stats
 
-hdfs dfs -rm -r /user/smenadjlia/data-test/seq
 
-rm data/part-r-00000
+# # Loop over m-*, w-* folders and the 'all' folder
+# for dir in m-* w-* all
+# do
+#     # Check if directory exists
+#     if [ -d "$dir" ]; then
+#         # Navigate into each directory
+#         cd "$dir"
 
-# yarn jar target/ClashRoyale-0.0.1.jar /user/smenadjlia/data-test/test.nljson /user/smenadjlia/data-test/seq
+#         # Delete the s6 folders if they exist
+#         if [ -d "s6" ]; then
+#             rm -rf s6
+#         fi
 
-yarn jar target/ClashRoyale-0.0.1.jar /user/auber/data_ple/clashroyale/gdc_battles.nljson /user/smenadjlia/data-test/res-all 10 a-0
+#         # Rename the folders in reverse order
+#         for (( i=5; i>=1; i-- )); do
+#             if [ -d "s$i" ]; then
+#                 mv "s$i" "s$((i+1))"
+#             fi
+#         done
 
-# for i in {1..11}; do
-#     yarn jar target/ClashRoyale-0.0.1.jar /user/auber/data_ple/clashroyale/gdc_battles.nljson /user/smenadjlia/data-test/res-month-$i 10 m-$i
+#         # Navigate back to the main directory
+#         cd ..
+#     fi
 # done
 
-# for i in {1..52}; do
-#     yarn jar target/ClashRoyale-0.0.1.jar /user/auber/data_ple/clashroyale/gdc_battles.nljson /user/smenadjlia/data-test/res-week-$i 15 s-$i
-# done
+# Loop over m-*, w-* folders and the 'all' folder
+for dir in m-* w-* all
+do
+    # Check if directory exists
+    if [ -d "$dir" ]; then
+        # Navigate into each directory
+        cd "$dir"
 
-# hdfs dfs -get /user/smenadjlia/data-test/res* data/results/ 
+        # Check if there are s* subdirectories
+        if compgen -G "s*" > /dev/null; then
 
-hdfs dfs -get /user/smenadjlia/data-test/seq/part-r-00000 data/
+            # Loop over s* subdirectories
+            for subdir in s*
+            do
+                # Navigate into the subdirectory
+                cd "$subdir"
 
-# hdfs dfs -get /user/auber/data_ple/worldcitiespop.txt data/
+                # Check if the file exists and rename it
+                if [ -f "part-r-00000" ]; then
+                    mv part-r-00000 data.json
+                fi
 
-# hdfs dfs -text /user/smenadjlia/data-test/seq/part-r-00000
+                # Navigate back to the parent directory
+                cd ..
+
+            done
+        fi
+
+        # Navigate back to the main directory
+        cd ..
+    fi
+done
