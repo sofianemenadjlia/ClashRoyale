@@ -95,7 +95,7 @@ public class Filter {
             Double deck2 = rootNode.get("deck2").asDouble();
 
             cards = sortAndMergeHexStrings(cards);
-            cards = sortAndMergeHexStrings(cards2);
+            cards2 = sortAndMergeHexStrings(cards2);
 
             if (dateString.isEmpty() || player.isEmpty() || player2.isEmpty() ||
                     cards.isEmpty() || cards2.isEmpty())
