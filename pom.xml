@@ -7,7 +7,7 @@
   <groupId>bigdata</groupId>
   <artifactId>ClashRoyale</artifactId>
   <version>0.0.1</version>
-  <name>projet clash royale</name>
+  <name>ClashRoyale</name>
   <dependencies>
   	<dependency>
   		<groupId>org.apache.hadoop</groupId>
@@ -24,6 +24,18 @@
         <artifactId>jackson-databind</artifactId>
         <version>2.13.0</version> <!-- Utilisez la dernière version disponible -->
     </dependency>
+    <!-- https://mvnrepository.com/artifact/org.apache.spark/spark-core -->
+    <dependency>
+        <groupId>org.apache.spark</groupId>
+        <artifactId>spark-core_2.12</artifactId>
+        <version>3.2.1</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.apache.spark/spark-sql -->
+    <dependency>
+        <groupId>org.apache.spark</groupId>
+        <artifactId>spark-sql_2.12</artifactId>
+        <version>3.2.1</version>
+    </dependency>
   </dependencies>
   <build>
   	<plugins>
@@ -34,7 +46,7 @@
   			<configuration>
   				<archive>
   					<manifest>
-  						<mainClass>runner.Main</mainClass>
+  						<mainClass>topk.TopKDecks</mainClass>
   					</manifest>
   				</archive>
   			</configuration>

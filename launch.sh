@@ -1,63 +1,53 @@
-#!/bin/bash
+rm -rf target/
+mvn clean
+mvn package
 
-# Change to the directory containing the "final-data" folder
-cd data/final-stats
+# spark-submit --class topk.TopKDecks --master yarn --num-executors 4 --total-executor-cores 8 --executor-memory 512M  target/ClashRoyale-0.0.1.jar
+
+spark-submit --class topk.TopKDecks --master yarn target/ClashRoyale-0.0.1.jar
 
 
-# # Loop over m-*, w-* folders and the 'all' folder
-# for dir in m-* w-* all
-# do
-#     # Check if directory exists
-#     if [ -d "$dir" ]; then
-#         # Navigate into each directory
-#         cd "$dir"
+# hdfs dfs -rm -r /user/smenadjlia/data-test/res-all
 
-#         # Delete the s6 folders if they exist
-#         if [ -d "s6" ]; then
-#             rm -rf s6
-#         fi
+# rm data/part-r-00000
 
-#         # Rename the folders in reverse order
-#         for (( i=5; i>=1; i-- )); do
-#             if [ -d "s$i" ]; then
-#                 mv "s$i" "s$((i+1))"
-#             fi
-#         done
+# yarn jar target/ClashRoyale-0.0.1.jar
 
-#         # Navigate back to the main directory
-#         cd ..
-#     fi
+# hdfs dfs -get /user/smenadjlia/data-test/res-all/part-r-00000 data/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# yarn jar target/ClashRoyale-0.0.1.jar /user/smenadjlia/data-test/test.nljson /user/smenadjlia/data-test/seq
+
+# yarn jar target/ClashRoyale-0.0.1.jar /user/auber/data_ple/clashroyale/gdc_battles.nljson /user/smenadjlia/data-test/res-all 10 a-0
+
+# for i in {1..11}; do
+#     yarn jar target/ClashRoyale-0.0.1.jar /user/auber/data_ple/clashroyale/gdc_battles.nljson /user/smenadjlia/data-test/res-month-$i 10 m-$i
 # done
 
-# Loop over m-*, w-* folders and the 'all' folder
-for dir in m-* w-* all
-do
-    # Check if directory exists
-    if [ -d "$dir" ]; then
-        # Navigate into each directory
-        cd "$dir"
+# for i in {1..52}; do
+#     yarn jar target/ClashRoyale-0.0.1.jar /user/auber/data_ple/clashroyale/gdc_battles.nljson /user/smenadjlia/data-test/res-week-$i 15 s-$i
+# done
 
-        # Check if there are s* subdirectories
-        if compgen -G "s*" > /dev/null; then
+# hdfs dfs -get /user/smenadjlia/data-test/res* data/results/ 
 
-            # Loop over s* subdirectories
-            for subdir in s*
-            do
-                # Navigate into the subdirectory
-                cd "$subdir"
+# hdfs dfs -get /user/smenadjlia/data-test/seq/part-r-00000 data/
 
-                # Check if the file exists and rename it
-                if [ -f "part-r-00000" ]; then
-                    mv part-r-00000 data.json
-                fi
+# hdfs dfs -get /user/auber/data_ple/worldcitiespop.txt data/
 
-                # Navigate back to the parent directory
-                cd ..
-
-            done
-        fi
-
-        # Navigate back to the main directory
-        cd ..
-    fi
-done
+# hdfs dfs -text /user/smenadjlia/data-test/seq/part-r-00000

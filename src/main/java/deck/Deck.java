@@ -1,7 +1,6 @@
 package deck;
 
 import java.util.*;
-import java.util.Set;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
@@ -41,6 +40,18 @@ public class Deck implements WritableComparable<Deck> {
         this.uses = uses;
         this.addPlayer(player);
         this.nbPlayers = this.players.size();
+        this.clanLevel = clanLevel;
+        this.averageLevel = averageLevel;
+    }
+
+    public Deck(String id, int wins, double ratio, int uses, int nbPlayers, int clanLevel, double averageLevel) {
+
+        players = new HashSet<>();
+        this.id = id;
+        this.wins = wins;
+        this.ratio = ratio;
+        this.uses = uses;
+        this.nbPlayers = nbPlayers;
         this.clanLevel = clanLevel;
         this.averageLevel = averageLevel;
     }
