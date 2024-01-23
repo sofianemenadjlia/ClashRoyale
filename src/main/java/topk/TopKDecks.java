@@ -58,7 +58,7 @@ public class TopKDecks {
             // Initialize Spark Context and Spark Session
             SparkConf conf = new SparkConf().setAppName("TopKDecks");
             JavaSparkContext sc = new JavaSparkContext(conf);
-            SparkSession spark = SparkSession.builder().sparkContext(sc.sc()).getOrCreate();
+            // SparkSession spark = SparkSession.builder().sparkContext(sc.sc()).getOrCreate();
 
             // Read data from a SequenceFile
             JavaPairRDD<Deck, NullWritable> sequenceData = sc.sequenceFile(stats, Deck.class, NullWritable.class);
@@ -82,26 +82,26 @@ public class TopKDecks {
                 sortFunctions.add(x -> x._2()._2()._3()); // Sort by _2._3
 
 
-            // Loop through stats and compute topK for each
+            List<List<Deck>> allIterationsTopKDecks = new ArrayList<>();
             int i = 1;
+            
             for (Function<Tuple2<String, Tuple2<Tuple3<Integer, Double, Integer>, Tuple3<Integer, Integer, Double>>>, Comparable> sortFunction : sortFunctions) {
                 List<Tuple2<String, Tuple2<Tuple3<Integer, Double, Integer>, Tuple3<Integer, Integer, Double>>>>
-                topKDecks = deckAttributes.sortBy(sortFunction, false, 1).take(k);
-                
-                List<Deck> topK = new ArrayList<>();
-                
-                for (Tuple2<String, Tuple2<Tuple3<Integer, Double, Integer>, Tuple3<Integer, Integer, Double>>> deck: topKDecks){
+                    topKDecks = deckAttributes.sortBy(sortFunction, false, 1).take(k);
+            
+                List<Deck> iterationTopK = new ArrayList<>();
+                for (Tuple2<String, Tuple2<Tuple3<Integer, Double, Integer>, Tuple3<Integer, Integer, Double>>> deck : topKDecks) {
                     Deck d = new Deck(deck._1(), deck._2()._1()._1(), deck._2()._1()._2(), deck._2()._1()._3(), deck._2()._2()._1(), deck._2()._2()._2(), deck._2()._2()._3());
-                    // d.setNb
-                    topK.add(d);
+                    iterationTopK.add(d);
                 }
-                mapper.writeValue(new File("topKDecksBy_s" + i + ".json"), topK);
-                
+            
+                allIterationsTopKDecks.add(iterationTopK);
                 ++i;
             }
-
+            mapper.writeValue(new File("groupedTopKDecksSize8.json"), allIterationsTopKDecks);
+            
             sc.close();
-            spark.close();
+            // spark.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
