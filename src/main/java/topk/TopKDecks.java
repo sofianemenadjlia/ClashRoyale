@@ -107,3 +107,102 @@ public class TopKDecks {
         }
     }
 }
+
+
+
+
+
+
+// List<Function<DeckStats, Comparable>> sortFunctions = new ArrayList<>();
+// sortFunctions.add(x -> x.getWins()); // Sort by _1._1
+// sortFunctions.add(x -> x.getUses()); // Sort by _1._2
+// sortFunctions.add(x -> x.getRatio()); // Sort by _1._3
+// sortFunctions.add(x -> x.getNbPlayers()); // Sort by _2._1
+// sortFunctions.add(x -> x.getClanLevel()); // Sort by _2._2
+// sortFunctions.add(x -> x.getAverageLevel()); // Sort by _2._3
+
+// List<List<List<DeckStats>>> allSizeTopKCombinations = new ArrayList<>();
+
+// // Assuming combination sizes range from 1 to 8
+// for (int size = 1; size <= 8; size++) {
+    
+//     int finalSize = size; // Required for use in lambda expression
+//     List<List<DeckStats>> allIterationsTopKCombinations = new ArrayList<>();
+    
+//     for (Function<DeckStats, Comparable> sortFunction : sortFunctions) {
+//         List<DeckStats> topKDecks = aggregatedStats
+//             .filter(entry -> {
+//                 // Count the number of '-' characters in the key
+//                 long count = entry._1().chars().filter(ch -> ch == '-').count();
+//                 return count == finalSize - 1; // Number of '-' is one less than the number of cards
+//             })
+//             .values()
+//             .sortBy(sortFunction, false, 1) // Replace with your desired sort function
+//             .take(k);
+
+//         allIterationsTopKCombinations.add(topKDecks);
+//     }
+//     allSizeTopKCombinations.add(allIterationsTopKCombinations);
+// }
+
+// List<List<DeckStats>> allIterationsTopKCombinations = new ArrayList<>();
+// int i = 1;
+
+// for (Function<DeckStats, Comparable> sortFunction : sortFunctions) {
+//     List<DeckStats> topKDecks = aggregatedStats.values().sortBy(sortFunction, false, 1).take(k);
+
+//     allIterationsTopKCombinations.add(topKDecks);
+//     ++i;
+// }
+
+
+// ------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+// JavaPairRDD<String, Iterable<DeckStats>> groupedStats = aggregatedStats.groupByKey();
+
+            // // List of comparators for each statistic
+            // List<Comparator<DeckStats>> comparators = Arrays.asList(
+            //     Comparator.comparingInt(DeckStats::getWins), // For wins
+            //     Comparator.comparingDouble(DeckStats::getRatio), // For ratio
+            //     Comparator.comparingInt(DeckStats::getUses), // For uses
+            //     Comparator.comparingInt(DeckStats::getNbPlayers), // For nbPlayers
+            //     Comparator.comparingDouble(DeckStats::getAverageLevel), // For averageLevel
+            //     Comparator.comparingInt(DeckStats::getClanLevel) // For clanLevel
+            // );
+
+            // Map<String, JavaPairRDD<String, List<DeckStats>>> topkForEachStat = new HashMap<>();
+
+            // String[] statNames = {"Wins", "Ratio", "Uses", "NbPlayers", "AverageLevel", "ClanLevel"};
+            // for (int i = 0; i < comparators.size(); i++) {
+            //     Comparator<DeckStats> comparator = comparators.get(i);
+            //     String statName = statNames[i];
+
+            //     JavaPairRDD<String, List<DeckStats>> topkForStat = groupedStats.mapValues(stat -> StreamSupport.stream(stat.spliterator(), false)
+            //             .sorted(comparator.reversed()) // Change or reverse as per sorting order
+            //             .limit(k)
+            //             .collect(Collectors.toList())
+            //     );
+
+            //     topkForEachStat.put(statName, topkForStat);
+            // }
+
+            // for (Map.Entry<String, JavaPairRDD<String, List<DeckStats>>> entry : topkForEachStat.entrySet()) {
+            //     String statName = entry.getKey();
+            //     JavaPairRDD<String, List<DeckStats>> rdd = entry.getValue();
+
+            //     // Collect the RDD data to the driver
+            //     List<Tuple2<String, List<DeckStats>>> collectedData = rdd.collect();
+
+            //     // Define the output path for the JSON file
+            //     String outputPath = statPath + statName + ".json"; // Modify the path as needed
+
+            //     // Write the JSON string to a file
+            //     try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputPath))) {
+            //         // Write each element in the list as a JSON line
+            //         for (Tuple2<String, List<DeckStats>> element : collectedData) {
+            //             String jsonString = mapper.writeValueAsString(element);
+            //             writer.write(jsonString);
+            //             writer.newLine();
+            //         }

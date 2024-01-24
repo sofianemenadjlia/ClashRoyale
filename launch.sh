@@ -2,10 +2,9 @@ rm -rf target/
 mvn clean
 mvn package
 
-# spark-submit --class topk.TopKDecks --master yarn --num-executors 4 --total-executor-cores 8 --executor-memory 512M  target/ClashRoyale-0.0.1.jar
+# spark-submit --class topk.TopKCombinations --master yarn --num-executors 8 --total-executor-cores 16 --executor-memory 1024M  target/ClashRoyale-0.0.1.jar
 
-spark-submit --class topk.TopKDecks --master yarn target/ClashRoyale-0.0.1.jar
-
+spark-submit --class topk.TopKCombinations --master yarn --driver-memory 48g --executor-memory 48g --num-executors 8 --executor-cores 8 target/ClashRoyale-0.0.1.jar
 
 # hdfs dfs -rm -r /user/smenadjlia/data-test/res-all
 

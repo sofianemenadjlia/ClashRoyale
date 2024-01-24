@@ -4,12 +4,14 @@ import java.util.*;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
+import java.io.Serializable;
+
 import org.apache.hadoop.io.WritableComparable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-public class Deck implements WritableComparable<Deck> {
+public class Deck implements WritableComparable<Deck>, Serializable {
 
     private String id;
     private int wins;
@@ -20,6 +22,9 @@ public class Deck implements WritableComparable<Deck> {
     private int nbPlayers;
     private int clanLevel;
     private double averageLevel;
+
+    private static final long serialVersionUID = 6529685098267757690L; // Recommended for Serializable classes
+
 
     public Deck() {
         // Initialization code, if necessary
@@ -55,6 +60,7 @@ public class Deck implements WritableComparable<Deck> {
         this.clanLevel = clanLevel;
         this.averageLevel = averageLevel;
     }
+
 
     // Getters and setters
 

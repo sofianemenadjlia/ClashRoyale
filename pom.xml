@@ -46,7 +46,7 @@
   			<configuration>
   				<archive>
   					<manifest>
-  						<mainClass>topk.TopKDecks</mainClass>
+  						<mainClass>topk.TopKCombinations</mainClass>
   					</manifest>
   				</archive>
   			</configuration>
