@@ -74,9 +74,8 @@ public class TopKCombinations {
     public static final String TABLE_NAME = "smenadjlia:clashgame";
 
     public static void runJob(JavaSparkContext sc, String statsInput, int k, String jsonDir, String filename) {
-        try{
 
-            ObjectMapper mapper = new ObjectMapper();
+            
 
             JavaRDD<Deck> decks = sc.sequenceFile(statsInput, Deck.class, NullWritable.class).keys();
 
@@ -122,38 +121,26 @@ public class TopKCombinations {
                 .mapToPair(entry -> new Tuple2<>(entry._1()._1(), entry._2())).groupByKey();
 
             // export to json file 
-            List<List<List<DeckStats>>> topkJson = Utils.exportJson(groupedBySize, k, jsonDir);
-
-            String jsonAsString = mapper.writeValueAsString(topkJson);
-                
+            List<List<List<DeckStats>>> topkJson = Utils.extractKExportJson(groupedBySize, k, jsonDir);
 
             // store in database 
-            Configuration conf_hbase = HBaseConfiguration.create();
-            conf_hbase.set("hbase.mapred.outputtable", TABLE_NAME);
-            conf_hbase.set("mapreduce.outputformat.class", "org.apache.hadoop.hbase.mapreduce.TableOutputFormat");
-            conf_hbase.set("mapreduce.output.fileoutputformat.outputdir", "/tmp");
-            Connection connection = ConnectionFactory.createConnection(conf_hbase);
+            try{
+                Configuration conf_hbase = Utils.init();
+                Connection connection = ConnectionFactory.createConnection(conf_hbase);
 
-            
-            //create the hbase table where we'll write this
-            // Utils.createTable(connection);
+                Utils.createTable(connection);
+                Utils.exportToHbase(sc, filename, topkJson, conf_hbase);
+                
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.exit(-1);
+            }
 
-            List<Tuple2<String, String>> tupleList = Arrays.asList(new Tuple2<>(filename, jsonAsString));
 
-            // Parallelize the list to create a JavaPairRDD
-            JavaPairRDD<String, String> singlePairRDD = sc.parallelizePairs(tupleList);
-
-            JavaPairRDD<ImmutableBytesWritable, Put> hbaserdd = singlePairRDD.mapToPair(x -> Utils.prepareForHbase(x));
-
-            Job newAPIJob = Job.getInstance(conf_hbase);
-            hbaserdd.saveAsNewAPIHadoopDataset(newAPIJob.getConfiguration());
-            System.out.println("saved to hbase\n");
 
             sc.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.exit(-1);
-        }
+
+
     }
 
     public static void main(String[] args){

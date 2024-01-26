@@ -140,7 +140,7 @@ public class Utils {
         }
     }
 
-    public static List<List<List<DeckStats>>> exportJson(JavaPairRDD<Integer, Iterable<DeckStats>> groupedBySize, int k, String jsonDir){
+    public static List<List<List<DeckStats>>> extractKExportJson(JavaPairRDD<Integer, Iterable<DeckStats>> groupedBySize, int k, String jsonDir){
         
         ObjectMapper mapper = new ObjectMapper();
         List<List<List<DeckStats>>> allSizeTopKCombinations = new ArrayList<>();
@@ -208,5 +208,33 @@ public class Utils {
     }
 
 
+    public static void exportToHbase(JavaSparkContext sc, String filename, List<List<List<DeckStats>>> topkJson, Configuration conf_hbase){
+        try{
+            ObjectMapper mapper = new ObjectMapper();
+            String jsonAsString = mapper.writeValueAsString(topkJson);
+            List<Tuple2<String, String>> tupleList = Arrays.asList(new Tuple2<>(filename, jsonAsString));
+
+            // Parallelize the list to create a JavaPairRDD
+            JavaPairRDD<String, String> singlePairRDD = sc.parallelizePairs(tupleList);
+
+            JavaPairRDD<ImmutableBytesWritable, Put> hbaserdd = singlePairRDD.mapToPair(x -> Utils.prepareForHbase(x));
+
+            Job newAPIJob = Job.getInstance(conf_hbase);
+            hbaserdd.saveAsNewAPIHadoopDataset(newAPIJob.getConfiguration());
+            System.out.println("saved to hbase\n");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(-1);
+        }
+    }
+
+    public static Configuration init(){
+        Configuration conf_hbase = HBaseConfiguration.create();
+        conf_hbase.set("hbase.mapred.outputtable", TABLE_NAME);
+        conf_hbase.set("mapreduce.outputformat.class", "org.apache.hadoop.hbase.mapreduce.TableOutputFormat");
+        conf_hbase.set("mapreduce.output.fileoutputformat.outputdir", "/tmp");
+        return conf_hbase;
+    }
 
 }
