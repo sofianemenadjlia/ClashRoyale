@@ -9,12 +9,12 @@ https://clashgame.vercel.app/
 
 ```sh
 #lancer backend
-cd backend
+cd WebApp/backend
 chmod +x backend.sh
 ./backend.sh
 
 #lancer frontend
-cd frontend
+cd WebApp/frontend
 chmod +x frontend.sh
 ./frontend.sh
 ```
