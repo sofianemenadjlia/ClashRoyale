@@ -71,11 +71,9 @@ import deck.*;
 public class TopKCombinations {
 
     public static final byte[] STATS_FAMILY = Bytes.toBytes("stats");
-    public static final String TABLE_NAME = "smenadjlia:clashgame";
+    public static final String TABLE_NAME = "fmessaoud:clashgametable";
 
     public static void runJob(JavaSparkContext sc, String statsInput, int k, String jsonDir, String filename) {
-
-            
 
             JavaRDD<Deck> decks = sc.sequenceFile(statsInput, Deck.class, NullWritable.class).keys();
 
@@ -130,17 +128,12 @@ public class TopKCombinations {
 
                 Utils.createTable(connection);
                 Utils.exportToHbase(sc, filename, topkJson, conf_hbase);
-                
+
             } catch (Exception e) {
                 e.printStackTrace();
                 System.exit(-1);
             }
-
-
-
             sc.close();
-
-
     }
 
     public static void main(String[] args){

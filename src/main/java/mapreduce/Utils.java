@@ -72,7 +72,7 @@ import deck.*;;
 public class Utils {
 
     public static final byte[] STATS_FAMILY = Bytes.toBytes("stats");
-    public static final String TABLE_NAME = "fmessaoud:ClashTable";
+    public static final String TABLE_NAME = "fmessaoud:clashgametable";
 
     public static int compareByWins(DeckStats stats) {
         return stats.getWins();
