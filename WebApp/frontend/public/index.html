@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filter Page</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="main-container"> <!-- New wrapper div -->
+    <div id="filter-container">
+        <label for="timeFilter">Filter by:</label>
+        <select id="timeFilter">
+            <option value="all">All</option>
+            <option value="month">Month</option>
+            <option value="week">Week</option>
+        </select>
+
+        <div id="monthFilter" style="display: none;">
+            <label for="month">Select Month:</label>
+            <select id="month"></select>
+        </div>
+
+        <div id="weekFilter" style="display: none;">
+            <label for="week">Select Week:</label>
+            <select id="week"></select>
+        </div>
+
+        <br><br>
+
+        <label for="statFilter">Filter by Stat:</label>
+        <select id="statFilter">
+            <option value="s1">Wins</option>
+            <option value="s2">Ratio</option>
+            <option value="s3">Uses</option>
+            <option value="s4">Number of players</option>
+            <option value="s5">Clan level</option>
+            <option value="s6">Average level</option>
+        </select>
+
+        <br><br>
+
+        <label for="ncardFilter">Number of combinations:</label>
+        <select id="ncardFilter">
+            <option value="n1">1 card</option>
+            <option value="n2">2 card</option>
+            <option value="n3">3 card</option>
+            <option value="n4">4 card</option>
+            <option value="n5">5 card</option>
+            <option value="n6">6 card</option>
+            <option value="n7">7 card</option>
+            <option value="n8" selected>8 card</option>
+        </select>
+
+        <br><br>
+
+        <label for="topK">Top K:</label>
+        <input type="number" id="topK" min="1" max="20" value="1">
+
+        <br><br>
+
+        <button id="validateButton">Validate</button>
+    </div>
+    <div id="deck-container"></div>
+</div>
+
+<script type="module" src="deck.js"></script>
+<script type="module" src="main.js"></script>
+
+
+</body>
+</html>
