@@ -73,11 +73,10 @@ public class TopKCombinations {
     public static final byte[] STATS_FAMILY = Bytes.toBytes("stats");
     public static final String TABLE_NAME = "smenadjlia:clashgame";
 
-    public static void runJob(JavaSparkContext sc, String statsInput, int k, String jsonDir) {
+    public static void runJob(JavaSparkContext sc, String statsInput, int k, String jsonDir, String filename) {
         try{
 
-        
-            ObjectMapper mapper = new   ();
+            ObjectMapper mapper = new ObjectMapper();
 
             JavaRDD<Deck> decks = sc.sequenceFile(statsInput, Deck.class, NullWritable.class).keys();
 
@@ -89,7 +88,7 @@ public class TopKCombinations {
 
                 String deckId = deck.getId();
                 List<String> cardIds = Utils.parseDeckId(deckId);
-                  bnjhkhvbb ÷yhuuhh                          for (int i = 1; i <= 8; i++) {
+                for (int i = 1; i <= 8; i++) {
                     for (List<String> combination : Utils.combinations(cardIds, i)) {
                         String combinationKey = Utils.processStrings(combination); // Create a unique sorted key for the combination
                         if (combinationSet.add(combinationKey))
@@ -137,9 +136,9 @@ public class TopKCombinations {
 
             
             //create the hbase table where we'll write this
-            Utils.createTable(connection);
+            // Utils.createTable(connection);
 
-            List<Tuple2<String, String>> tupleList = Arrays.asList(new Tuple2<>("m-6", jsonAsString));
+            List<Tuple2<String, String>> tupleList = Arrays.asList(new Tuple2<>(filename, jsonAsString));
 
             // Parallelize the list to create a JavaPairRDD
             JavaPairRDD<String, String> singlePairRDD = sc.parallelizePairs(tupleList);
@@ -158,13 +157,16 @@ public class TopKCombinations {
     }
 
     public static void main(String[] args){
-        String statsInput = "/user/smenadjlia/data/statsM6";
-        int k = 5;
-        String jsonDir = "sparkJson/";
+
+        int k = 100;
         SparkConf conf = new SparkConf().setAppName("TopKCombos");
 
         JavaSparkContext sc = new JavaSparkContext(conf);
-
-        runJob(sc, statsInput, k, jsonDir);
+        String username = "fmessaoud";
+        String filename = args[0];
+        String jsonDir = "sparkJson/" + filename;
+        String statsInput = "/user/" + username + "/data/statseqfiles/" + filename;
+        
+        runJob(sc, statsInput, k, jsonDir, filename);
     }
 }

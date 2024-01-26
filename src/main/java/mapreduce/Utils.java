@@ -72,7 +72,7 @@ import deck.*;;
 public class Utils {
 
     public static final byte[] STATS_FAMILY = Bytes.toBytes("stats");
-    public static final String TABLE_NAME = "smenadjlia:clashgame";
+    public static final String TABLE_NAME = "fmessaoud:ClashTable";
 
     public static int compareByWins(DeckStats stats) {
         return stats.getWins();
@@ -171,7 +171,7 @@ public class Utils {
         }
 
         try {
-            mapper.writeValue(new File(jsonDir + "TopKCombinationsBySize.json"), allSizeTopKCombinations);   
+            mapper.writeValue(new File(jsonDir + ".json"), allSizeTopKCombinations);   
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -184,12 +184,12 @@ public class Utils {
     public static void createTable(Connection connect) {
         try {
             final Admin admin = connect.getAdmin();
-            //create a table with two column families: city and population
             HTableDescriptor tableDescriptor = new HTableDescriptor(TableName.valueOf(TABLE_NAME));
             tableDescriptor.addFamily(new HColumnDescriptor(STATS_FAMILY));
             if (admin.tableExists(tableDescriptor.getTableName())) {
-                admin.disableTable(tableDescriptor.getTableName());
-                admin.deleteTable(tableDescriptor.getTableName());
+                // admin.disableTable(tableDescriptor.getTableName());
+                // admin.deleteTable(tableDescriptor.getTableName());
+                return;
             }
             admin.createTable(tableDescriptor);
             admin.close();
@@ -199,14 +199,9 @@ public class Utils {
         }
     }
 
-    //get a tuple (city name, population) and prepare the corresponding tuple
-    //that will become a row in the hbase table
+
     public static Tuple2<ImmutableBytesWritable, Put> prepareForHbase(Tuple2<String,String> x) {
-        //the first element of the tuple, the city name, will be the key for the row
-        //that could be a problem for cities with the same name.
-        //However, this is just an example, we don't care.
-        //We could use zipWithIndex to add an index to each element of the RDD,
-        //that index could be used as a key (and would really be unique).
+
         Put put = new Put(Bytes.toBytes(x._1));
         put.addColumn(STATS_FAMILY, Bytes.toBytes("stats"), Bytes.toBytes(x._2));
         return new Tuple2<ImmutableBytesWritable, Put>(new ImmutableBytesWritable(), put);
