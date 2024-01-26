@@ -5,9 +5,11 @@ rm -rf target/
 mvn clean
 mvn package
 
+
 # months
 for i in {1..12}
 do
+    start_time=$(date +%s)
     # Execute spark-submit command with m-$i
     HADOOP_CLASSPATH=`hadoop classpath`:`hbase classpath` spark-submit --class mapreduce.TopKCombinations \
                 --master yarn \
@@ -16,11 +18,15 @@ do
                 --num-executors 8 \
                 --executor-cores 8 \
                 target/ClashRoyale-0.0.1.jar m-$i
+    end_time=$(date +%s)
+    time_taken=$((end_time - start_time))
+    echo "Time taken: $time_taken seconds"
 done
 
 # weeks
 for i in {1..52}
 do
+    start_time=$(date +%s)
     # Execute spark-submit command with m-$i
     HADOOP_CLASSPATH=`hadoop classpath`:`hbase classpath` spark-submit --class mapreduce.TopKCombinations \
                 --master yarn \
@@ -29,9 +35,15 @@ do
                 --num-executors 8 \
                 --executor-cores 8 \
                 target/ClashRoyale-0.0.1.jar w-$i
+    end_time=$(date +%s)
+    time_taken=$((end_time - start_time))
+    echo "Time taken: $time_taken seconds"
 done
 
+
+
 # all
+start_time=$(date +%s)
 HADOOP_CLASSPATH=`hadoop classpath`:`hbase classpath` spark-submit --class mapreduce.TopKCombinations \
                 --master yarn \
                 --driver-memory 48g \
@@ -39,6 +51,10 @@ HADOOP_CLASSPATH=`hadoop classpath`:`hbase classpath` spark-submit --class mapre
                 --num-executors 8 \
                 --executor-cores 8 \
                 target/ClashRoyale-0.0.1.jar all
+
+end_time=$(date +%s)
+time_taken=$((end_time - start_time))
+echo "Time taken: $time_taken seconds"
 
 # hdfs dfs -rm -r /user/smenadjlia/data-test/res-all
 
